@@ -11,7 +11,6 @@ class Role(Base):
     name = Column(String(120), nullable=False)
     active = Column(Boolean(), default=True )
 
-
 class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
@@ -21,4 +20,19 @@ class User(Base):
     last_login = Column(DateTime())
     role_id = Column(Integer, ForeignKey('roles.id'), nullable=False)
     role = relationship("Role", backref="users")
+
+class Profile(Base):
+    __tablename__ = 'profiles'
+    id = Column(Integer, primary_key=True)
+    # ....
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    user = relationship("User", backref='profile', uselist=False) 
+
+class Libro(Base):
+    __tablename__ = 'libros'
+    id = Column(Integer, primary_key=True)       
+
+class AutoresLibros(Base):
+      user_id = Column(Integer, ForeignKey('users.id'), nullable=False, primary_key=True)
+      libro_id = Column(Integer, ForeignKey('libros.id'), nullable=False, primary_key=True)  
 
